@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useSearchParams } from "react-router";
 import axios from "axios";
@@ -16,10 +16,7 @@ axios.defaults.withCredentials = true;
 
 const TwitchDropsPage = () => {
   const [steamLinked, setSteamLinked] = useState(false);
-  const [username, setUsername] = useState("");
   const [twitchLinked, setTwitchLinked] = useState(false);
-  const [twitchUsername, setTwitchUsername] = useState("");
-  const [loadingCollect, setLoadingCollect] = useState(false);
   const [rewardsCollected, setRewardsCollected] = useState(false);
   const [rewardMessage, setRewardMessage] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
@@ -54,9 +51,7 @@ const TwitchDropsPage = () => {
       const twitchUsernameParam = searchParams.get("twitchUsername") || "";
 
       setSteamLinked(true);
-      setUsername(usernameParam);
       setTwitchLinked(twitchLinkedParam);
-      setTwitchUsername(twitchUsernameParam);
 
       saveAuthData({
         steamLinked: true,
@@ -72,10 +67,8 @@ const TwitchDropsPage = () => {
     const stored = loadAuthData();
     if (stored.steamLinked) {
       setSteamLinked(true);
-      setUsername(stored.username || "");
       if (stored.twitchLinked) {
         setTwitchLinked(true);
-        setTwitchUsername(stored.twitchUsername || "");
       }
     } else clearAuthData();
   }, []);
@@ -97,13 +90,11 @@ const TwitchDropsPage = () => {
     const updated = { ...stored, twitchLinked: false, twitchUsername: "" };
     saveAuthData(updated);
     setTwitchLinked(false);
-    setTwitchUsername("");
     window.location.href = `${API_BASE}/twitch/logout`;
   };
 
   const handleCollectRewards = async () => {
     if (!steamLinked || !twitchLinked || collectCooldown > 0) return;
-    setLoadingCollect(true);
     setRewardMessage("");
     setAlertMessage("");
     try {
@@ -127,7 +118,6 @@ const TwitchDropsPage = () => {
       setAlertMessage("Server error. Try again later.");
       setRewardMessage("");
     } finally {
-      setLoadingCollect(false);
       setCollectCooldown(10);
       const interval = setInterval(() => {
         setCollectCooldown((prev) => {
@@ -153,7 +143,7 @@ const TwitchDropsPage = () => {
       btnText = "",
       btnAction = () => {},
       disabled = false;
-    let icon: JSX.Element;
+    let icon: ReactNode;
 
     if (
       (type === "twitch" && !steamLinked) ||
@@ -258,7 +248,6 @@ const TwitchDropsPage = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="relative z-10 max-w-4xl mx-auto px-6 py-12 rounded-xs shadow-[0_0_40px_rgba(0,0,0,0.7)] border border-[#c9a858]/30 flex flex-col items-center gap-6 overflow-hidden"
         >
-          {/* BG_TEST BACKGROUND */}
           <div className="absolute inset-0">
             <img
               src={BG_TEST}

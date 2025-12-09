@@ -16,18 +16,21 @@ import CookieBanner from "./components/CookieBanner";
 import TwitchDropsPage from "./pages/TwitchDropsPage";
 
 function App() {
-  const [currentSection, setCurrentSection] = useState("home");
+  const [currentSection, setCurrentSection] = useState<
+    "home" | "news" | "gallery"
+  >("home");
+
   const [isAnimating, setIsAnimating] = useState(false);
   const [scrollDirection, setScrollDirection] = useState("down");
 
   // 🔥 NEWS → Footer görünürken scroll lock
   const [allowSectionScroll, setAllowSectionScroll] = useState(true);
 
-  const handleScroll = (e) => {
+  const handleScroll = (e: any) => {
     if (!allowSectionScroll) return;
     if (isAnimating) return;
 
-    const sections = ["home", "gallery", "news"];
+    const sections = ["home", "gallery", "news"] as const;
     const currentIndex = sections.indexOf(currentSection);
 
     if (e.deltaY > 50 && currentIndex < sections.length - 1) {
@@ -79,7 +82,7 @@ function App() {
     }
   };
 
-  const goToSection = (targetSection) => {
+  const goToSection = (targetSection: "home" | "news" | "gallery") => {
     if (isAnimating) return;
 
     const sections = ["home", "gallery", "news"];

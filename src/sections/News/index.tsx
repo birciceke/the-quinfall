@@ -12,7 +12,7 @@ import Footer from "../../components/Footer";
 import NEWS_SECTION_BG from "../../assets/images/news-section-bg.jpg";
 import NEWS_BG from "../../assets/images/bg-test.jpg";
 
-const News = ({ onScrollLockChange }) => {
+const News = ({ onScrollLockChange }: any) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [scrollProgress, setScrollProgress] = useState(0);

@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router";
-import { FaSteam, FaTwitch, FaGift, FaLock } from "react-icons/fa";
+import {
+  FaSteam,
+  FaTwitch,
+  FaGift,
+  FaLock,
+  FaArrowRight,
+} from "react-icons/fa";
+import { FaCheck } from "react-icons/fa6";
+import { RxExit } from "react-icons/rx";
 
 const STORAGE_KEY = "userAuthData";
 const API_BASE = import.meta.env.VITE_API_URL || "";
@@ -95,7 +103,8 @@ const TwitchDropsPage = () => {
       if (json.success) {
         setRewardsCollected(true);
         setRewardMessage(
-          "Your Twitch reward has been credited to your game account!"
+          json.message ||
+            "Your Twitch reward has been found and will be delivered to your in-game account within 5 minutes!"
         );
       } else setAlertMessage(json.message || "No rewards available.");
     } catch {
@@ -117,13 +126,13 @@ const TwitchDropsPage = () => {
   return (
     <section className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 md:px-20 bg-black/40 backdrop-blur-sm">
       <div className="relative max-w-5xl w-full bg-black/70 border border-white/20 shadow-2xl p-8 md:p-12 flex flex-col gap-8">
-        <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#c9a858]" />
-        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#c9a858]" />
-        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#c9a858]" />
-        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#c9a858]" />
+        <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#6441a5]" />
+        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#6441a5]" />
+        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#6441a5]" />
+        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#6441a5]" />
         <div className="text-center space-y-6">
           <h2 className="font-serif text-2xl md:text-3xl font-bold text-white tracking-widest uppercase">
-            Twitch Drops
+            <span className="text-[#6441a5]">Twitch</span> Drops
           </h2>
           <p className="font-sans text-gray-400 text-sm md:text-base">
             To receive rewards, you must first link your accounts! Sign in with
@@ -136,75 +145,153 @@ const TwitchDropsPage = () => {
         <div className="flex flex-col md:flex-row gap-8">
           <div className="flex-1 flex flex-col items-center text-center border border-white/10 p-6 bg-black/50 relative group hover:border-white/30 transition-all duration-200">
             <div className="text-6xl font-serif text-white/10 absolute top-4 right-6 select-none group-hover:text-white/20 transition-colors">
-              1
+              01
             </div>
             <div className="w-16 h-16 mb-4 rounded-full flex items-center justify-center shadow-lg border border-white/20 bg-gray-900">
               <FaSteam className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2 font-serif uppercase">
-              {steamLinked ? "Steam Connected" : "Steam Login"}
+              Steam Login
             </h3>
             <p className="text-gray-400 text-sm mb-6">
               {steamLinked
                 ? "Your Steam account is successfully linked!"
                 : "Connect your Steam account to verify ownership and enable reward collection."}
             </p>
-            <button
-              onClick={steamLinked ? handleSteamLogout : handleSteamLogin}
-              className={`w-full py-3 px-4 font-bold tracking-wider uppercase text-sm transition-all flex items-center justify-center gap-2 cursor-pointer ${
-                steamLinked
-                  ? "bg-red-600 border border-red-500 text-white hover:bg-red-600"
-                  : "bg-[#171a21] hover:bg-[#2a475e] text-white border border-white/20"
-              }`}
-            >
-              {steamLinked ? "Logout" : "Connect Steam"}
-            </button>
+            {!steamLinked ? (
+              <button
+                onClick={handleSteamLogin}
+                className="
+        w-full py-3 px-4
+        bg-[#171a21] hover:bg-[#2a475e]
+        text-white
+        border border-white/20
+        font-bold tracking-wider uppercase text-sm
+        transition-all
+        flex items-center justify-center gap-2
+        cursor-pointer
+      "
+              >
+                Connect Steam <FaArrowRight />
+              </button>
+            ) : (
+              <div className="w-full space-y-3">
+                <div
+                  className="
+          w-full py-3 px-4
+          bg-green-600/10
+          border border-green-500/40
+          text-green-300
+          font-bold tracking-wider uppercase text-sm
+          flex items-center justify-center gap-2
+          cursor-default
+        "
+                >
+                  <FaCheck /> Connected
+                </div>
+
+                <button
+                  onClick={handleSteamLogout}
+                  className="
+          w-full py-3 px-4
+          bg-red-900/10
+          border border-red-500/30
+          text-red-300
+          hover:bg-red-900/30
+          hover:text-white
+          hover:border-red-500
+          transition-all
+          flex items-center justify-center gap-2
+          uppercase font-bold tracking-wider text-sm
+          cursor-pointer
+        "
+                >
+                  <RxExit /> Logout
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="flex-1 flex flex-col items-center text-center border border-white/10 p-6 bg-black/50 relative group hover:border-white/30 transition-all duration-200">
             <div className="text-6xl font-serif text-white/10 absolute top-4 right-6 select-none group-hover:text-white/20 transition-colors">
-              2
+              02
             </div>
             <div className="w-16 h-16 mb-4 rounded-full flex items-center justify-center shadow-lg border border-white/20 bg-[#6441a5]">
               <FaTwitch className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2 font-serif uppercase">
-              {twitchLinked ? "Twitch Connected" : "Twitch Login"}
+              Twitch Login
             </h3>
             <p className="text-gray-400 text-sm mb-6">
               {twitchLinked
                 ? "Your Twitch account is successfully linked!"
                 : "Connect your Twitch account to verify ownership and enable reward collection."}
             </p>
-            <button
-              onClick={twitchLinked ? handleTwitchLogout : handleTwitchLogin}
-              disabled={!steamLinked}
-              className={`w-full py-3 px-4 font-bold tracking-wider uppercase text-sm flex items-center justify-center gap-2 transition-all ${
-                twitchLinked
-                  ? "bg-red-600 border border-red-500 text-white hover:bg-red-500 cursor-pointer"
-                  : !steamLinked
-                  ? "bg-gray-800 text-gray-500 cursor-not-allowed"
-                  : "bg-[#6441a5] hover:bg-[#7d5bbe] text-white border border-white/20 cursor-pointer"
-              }`}
-            >
-              {twitchLinked ? (
-                "Logout"
-              ) : !steamLinked ? (
-                <>
-                  <FaLock className="mr-2" /> Connect Twitch
-                </>
-              ) : (
-                "Connect Twitch"
-              )}
-            </button>
+            {!twitchLinked ? (
+              <button
+                onClick={steamLinked ? handleTwitchLogin : undefined}
+                disabled={!steamLinked}
+                className={`
+      w-full py-3 px-4
+      font-bold tracking-wider uppercase text-sm
+      transition-all
+      flex items-center justify-center gap-2
+      border border-white/20
+      ${
+        steamLinked
+          ? "bg-[#171a21] hover:bg-[#2a475e] text-white cursor-pointer"
+          : "bg-gray-800 text-gray-500 cursor-not-allowed"
+      }
+    `}
+              >
+                {!steamLinked && <FaLock />}
+                Connect Twitch
+                {steamLinked && <FaArrowRight />}
+              </button>
+            ) : (
+              <div className="w-full space-y-3">
+                <div
+                  className="
+          w-full py-3 px-4
+          bg-green-600/10
+          border border-green-500/40
+          text-green-300
+          font-bold tracking-wider uppercase text-sm
+          flex items-center justify-center gap-2
+          cursor-default
+        "
+                >
+                  <FaCheck /> Connected
+                </div>
+
+                <button
+                  onClick={handleTwitchLogout}
+                  className="
+          w-full py-3 px-4
+          bg-red-900/10
+          border border-red-500/30
+          text-red-300
+          hover:bg-red-900/30
+          hover:text-white
+          hover:border-red-500
+          transition-all
+          flex items-center justify-center gap-2
+          uppercase font-bold tracking-wider text-sm
+          cursor-pointer
+        "
+                >
+                  <RxExit /> Logout
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="flex-1 flex flex-col items-center text-center border border-white/10 p-6 bg-black/50 relative group hover:border-white/30 transition-all duration-200">
             <div className="text-6xl font-serif text-white/10 absolute top-4 right-6 select-none group-hover:text-white/20 transition-colors">
-              3
+              03
             </div>
             <div
-              className={`w-16 h-16 mb-4 rounded-full flex items-center justify-center shadow-lg border border-white/20 bg-yellow-500`}
+              className={`w-16 h-16 mb-4 rounded-full flex items-center justify-center shadow-lg border border-white/20 bg-[#c9a858]`}
             >
               <FaGift className={"w-8 h-8 text-white"} />
             </div>
@@ -220,28 +307,54 @@ const TwitchDropsPage = () => {
                 disabled={
                   !twitchLinked || rewardsCollected || collectCooldown > 0
                 }
-                className={`w-full py-3 px-4 font-bold tracking-wider uppercase text-sm flex items-center justify-center gap-2 transition-all ${
+                className={`w-full py-3 px-4 font-bold tracking-wider uppercase text-sm transition-all flex items-center justify-center gap-2 group/btn ${
                   rewardsCollected
-                    ? "bg-transparent border border-yellow-500 text-yellow-500 cursor-not-allowed"
+                    ? "bg-transparent border border-[#c9a858] text-[#c9a858] cursor-default"
                     : !twitchLinked
                     ? "bg-gray-800 text-gray-500 cursor-not-allowed"
-                    : "bg-yellow-500 text-black hover:bg-yellow-400 cursor-pointer"
+                    : collectCooldown > 0
+                    ? "bg-[#c9a858]/40 text-black cursor-not-allowed"
+                    : "bg-[#c9a858] text-black hover:bg-white cursor-pointer"
                 }`}
               >
-                {!twitchLinked && <FaLock className="mr-2" />}
-                {rewardsCollected
-                  ? "Rewards Claimed"
-                  : `Claim Now${
-                      collectCooldown > 0 ? ` (${collectCooldown}s)` : ""
-                    }`}
+                {rewardsCollected ? (
+                  <>
+                    <FaCheck />
+                    Rewards Claimed
+                  </>
+                ) : !twitchLinked ? (
+                  <>
+                    <FaLock />
+                    Collect Rewards
+                  </>
+                ) : (
+                  <span className="flex items-center gap-2">
+                    Claim Now
+                    {collectCooldown > 0 ? (
+                      <span className="text-sm opacity-70">
+                        ({collectCooldown}s)
+                      </span>
+                    ) : (
+                      <FaArrowRight />
+                    )}
+                  </span>
+                )}
               </button>
             </div>
           </div>
         </div>
       </div>
-
       {(alertMessage || rewardMessage) && (
-        <div className="absolute bottom-10 md:bottom-16 bg-black/70 text-white px-6 py-3 rounded-md">
+        <div
+          className={`
+      absolute bottom-12 md:bottom-24 px-6 py-3 flex items-center gap-3 animate-fade-in-up
+      ${
+        rewardMessage
+          ? "bg-green-500/20 border border-green-500 text-green-200"
+          : "bg-red-900/10 border border-red-500/30 text-red-300"
+      }
+    `}
+        >
           {rewardMessage || alertMessage}
         </div>
       )}

@@ -3,15 +3,17 @@ import { Link } from "react-router";
 import THE_QUINFALL_LOGO_ALT from "../assets/images/logos/the-quinfall-logo-alt.png";
 import VAWRAEK_LOGO_ALT from "../assets/images/logos/vawraek-logo-alt.png";
 
+const APP_VERSION = import.meta.env.VITE_APP_VERSION;
+
 const Footer = () => {
   const year = new Date().getFullYear();
 
   const links = [
-    { name: "Support Center", path: "/support-center" },
-    { name: "Wiki", path: "/wiki" },
-    { name: "Twitch Drops", path: "/drops" },
     { name: "Privacy Policy", path: "/privacy-policy" },
+    { name: "Support Center", path: "/support-center" },
     { name: "Terms of Service", path: "/terms-of-service" },
+    { name: "Twitch Drops", path: "/drops" },
+    { name: "Wiki", path: "/wiki" },
   ];
 
   return (
@@ -61,11 +63,12 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="text-center border-t border-white/5 pt-6">
-        <p className="text-gray-600 text-xs font-sans">
+      <div className="flex flex-col gap-2 text-center border-t border-white/5 pt-8 text-gray-600 text-xs font-sans">
+        <p>
           © {year} Vawraek Technology. All rights reserved. The Quinfall is a
           registered trademark of Vawraek Technology.
         </p>
+        <p>Version: {APP_VERSION}</p>
       </div>
     </footer>
   );

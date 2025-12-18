@@ -14,6 +14,7 @@ const NewsletterModal: React.FC<NewsletterModalProps> = ({
 }) => {
   const API_URL = import.meta.env.VITE_API_URL;
 
+  const [visible, setVisible] = useState(isOpen);
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
@@ -21,11 +22,31 @@ const NewsletterModal: React.FC<NewsletterModalProps> = ({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
+    if (isOpen) setVisible(true);
+  }, [isOpen]);
+
+  useEffect(() => {
+    document.body.style.overflow = visible ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen]);
+  }, [visible]);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeWithAnimation();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [visible]);
+
+  const closeWithAnimation = () => {
+    setVisible(false);
+    setTimeout(onClose, 600);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +64,7 @@ const NewsletterModal: React.FC<NewsletterModalProps> = ({
       setStatus("success");
 
       setTimeout(() => {
-        onClose();
+        closeWithAnimation();
         setStatus("idle");
         setEmail("");
       }, 3000);
@@ -59,7 +80,7 @@ const NewsletterModal: React.FC<NewsletterModalProps> = ({
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {visible && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
@@ -67,7 +88,7 @@ const NewsletterModal: React.FC<NewsletterModalProps> = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="absolute inset-0 bg-black/90 backdrop-blur-sm"
-            onClick={onClose}
+            onClick={closeWithAnimation}
           />
 
           <motion.div
@@ -86,7 +107,7 @@ const NewsletterModal: React.FC<NewsletterModalProps> = ({
             <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#c9a858]" />
 
             <button
-              onClick={onClose}
+              onClick={closeWithAnimation}
               className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors cursor-pointer"
             >
               <FaTimes size={22} />
@@ -95,7 +116,8 @@ const NewsletterModal: React.FC<NewsletterModalProps> = ({
             <div className="flex flex-col items-center text-center space-y-6">
               <div className="space-y-2">
                 <h2 className="font-serif text-2xl md:text-3xl font-bold text-white tracking-widest uppercase">
-                  Newsletter Subscription
+                  <span className="text-[#c9a858] ">Newsletter</span>{" "}
+                  Subscription
                 </h2>
                 <p className="font-sans text-gray-400 text-sm md:text-base">
                   Subscribe for exclusive access to upcoming events!

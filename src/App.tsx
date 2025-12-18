@@ -19,30 +19,29 @@ import NewsletterModal from "./components/NewsletterModal";
 import CookieBanner from "./components/CookieBanner";
 import GlobalLoader from "./components/GlobalLoader";
 
+type Section = "home" | "gallery" | "news";
+
 function App() {
-  const [currentSection, setCurrentSection] = useState<
-    "home" | "news" | "gallery"
-  >("home");
-
+  const [currentSection, setCurrentSection] = useState<Section>("home");
   const [isAnimating, setIsAnimating] = useState(false);
-  const [scrollDirection, setScrollDirection] = useState("down");
-
+  const [scrollDirection, setScrollDirection] = useState<"up" | "down">("down");
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
 
-  const handleScroll = (e: any) => {
+  const sections: Section[] = ["home", "gallery", "news"];
+
+  const changeSection = (direction: "up" | "down") => {
     if (isAnimating) return;
 
-    const sections = ["home", "gallery", "news"] as const;
     const currentIndex = sections.indexOf(currentSection);
 
-    if (e.deltaY > 50 && currentIndex < sections.length - 1) {
+    if (direction === "down" && currentIndex < sections.length - 1) {
       setScrollDirection("down");
       setIsAnimating(true);
       setCurrentSection(sections[currentIndex + 1]);
       setTimeout(() => setIsAnimating(false), 450);
     }
 
-    if (e.deltaY < -50 && currentIndex > 0) {
+    if (direction === "up" && currentIndex > 0) {
       setScrollDirection("up");
       setIsAnimating(true);
       setCurrentSection(sections[currentIndex - 1]);
@@ -50,9 +49,27 @@ function App() {
     }
   };
 
+  const handleScroll = (e: WheelEvent) => {
+    if (e.deltaY > 50) changeSection("down");
+    if (e.deltaY < -50) changeSection("up");
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "ArrowDown" || e.key === "s" || e.key === "S")
+      changeSection("down");
+
+    if (e.key === "ArrowUp" || e.key === "w" || e.key === "W")
+      changeSection("up");
+  };
+
   useEffect(() => {
     window.addEventListener("wheel", handleScroll, { passive: true });
-    return () => window.removeEventListener("wheel", handleScroll);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("wheel", handleScroll);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [currentSection, isAnimating]);
 
   const variants = {
@@ -83,20 +100,17 @@ function App() {
     }
   };
 
-  const goToSection = (targetSection: "home" | "news" | "gallery") => {
+  const goToSection = (targetSection: Section) => {
     if (isAnimating) return;
 
-    const sections = ["home", "gallery", "news"];
     const currentIndex = sections.indexOf(currentSection);
     const targetIndex = sections.indexOf(targetSection);
 
-    if (targetIndex === currentIndex) return;
+    if (currentIndex === targetIndex) return;
 
     setScrollDirection(targetIndex > currentIndex ? "down" : "up");
-
     setIsAnimating(true);
     setCurrentSection(targetSection);
-
     setTimeout(() => setIsAnimating(false), 450);
   };
 

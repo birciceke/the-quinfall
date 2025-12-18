@@ -43,7 +43,7 @@ const News = () => {
               Retrieving Chronicles
             </p>
             <p className="font-sans text-xs text-gray-500 tracking-wider">
-              Communing with The Quinfall Archives...
+              Communing with The Quinfall archives...
             </p>
           </div>
         </div>

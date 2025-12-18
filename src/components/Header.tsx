@@ -1,7 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router";
-import { FaDiscord, FaXTwitter, FaYoutube, FaGlobe } from "react-icons/fa6";
+import {
+  FaDiscord,
+  FaXTwitter,
+  FaYoutube,
+  FaGlobe,
+  FaInstagram,
+} from "react-icons/fa6";
 
 import THE_QUINFALL_LOGO from "../assets/images/logos/the-quinfall-logo.png";
 
@@ -66,6 +72,21 @@ const Header = ({ onOpenNewsletter }: HeaderProps) => {
       "
           >
             <FaDiscord size={22} />
+          </a>
+
+          <a
+            href="https://www.instagram.com/thequinfall"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+      cursor-pointer p-2.5 rounded-full
+      text-white
+      transition-all duration-200
+      hover:text-[#E4405F]
+      hover:bg-white/10
+    "
+          >
+            <FaInstagram size={22} />
           </a>
 
           <a

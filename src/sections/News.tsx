@@ -152,7 +152,7 @@ const News = () => {
                   <div className="flex items-center gap-1 text-gray-400 text-xs mb-3">
                     <FaCalendarAlt size={12} />
                     {new Date(news.createdAt).toLocaleDateString("en-US", {
-                      month: "short",
+                      month: "long",
                       day: "numeric",
                       year: "numeric",
                     })}

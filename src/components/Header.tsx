@@ -60,7 +60,7 @@ const Header = ({ onOpenNewsletter }: HeaderProps) => {
       <div className="flex items-center gap-6 text-base md:text-lg">
         <div className="flex items-center gap-3">
           <a
-            href="https://discord.gg/N8TKtwJV"
+            href="https://discord.com/invite/YxsfC7cBCu"
             target="_blank"
             rel="noopener noreferrer"
             className="

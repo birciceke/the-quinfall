@@ -9,9 +9,8 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   const links = [
+    { name: "Legal Notice", path: "/legal-notice" },
     { name: "Privacy Policy", path: "/privacy-policy" },
-    { name: "Support Center", path: "/support-center" },
-    { name: "Terms of Service", path: "/terms-of-service" },
     { name: "Twitch Drops", path: "/drops" },
     { name: "Wiki", path: "/wiki" },
   ];

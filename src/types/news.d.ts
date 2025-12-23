@@ -1,6 +1,6 @@
 import type { ObjectId } from "mongoose";
 
-export type News = {
+type News = {
   _id: ObjectId;
   title: string;
   content: string;

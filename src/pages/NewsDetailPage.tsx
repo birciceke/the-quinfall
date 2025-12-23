@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { FaCalendarAlt, FaLink, FaArrowLeft } from "react-icons/fa";
 
-import type { AppDispatch, RootState } from "../store";
+import type { AppDispatch, RootState } from "../store/index";
 import { fetchNewsById } from "../store/slices/news";
 
 import ErrorPage from "./ErrorPage";

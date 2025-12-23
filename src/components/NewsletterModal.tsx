@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes, FaArrowRight, FaCheck } from "react-icons/fa";
 import axios, { isAxiosError } from "axios";
+import { Link } from "react-router";
 
 import Toast from "./Toast";
 
@@ -159,7 +160,7 @@ const NewsletterModal: React.FC<NewsletterModalProps> = ({
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your e-mail address."
+                      placeholder="Enter your email address."
                       className="w-full bg-white/5 border border-white/20 px-4 py-4 text-white placeholder-gray-500 outline-none focus:border-[#c9a858] transition-all duration-200 font-sans"
                       required
                       disabled={status === "submitting"}
@@ -180,12 +181,12 @@ const NewsletterModal: React.FC<NewsletterModalProps> = ({
 
                 <p className="text-[10px] md:text-xs text-gray-500 font-sans max-w-xs mx-auto leading-relaxed border-t border-white/10 pt-6">
                   By signing up to receive our newsletter, you agree to our{" "}
-                  <a
-                    href="/"
+                  <Link
+                    to="/privacy-policy"
                     className="text-[#c9a858] hover:text-[#aa8c46] transition-all duration-200"
                   >
                     Privacy Policy
-                  </a>
+                  </Link>
                   .
                 </p>
               </div>

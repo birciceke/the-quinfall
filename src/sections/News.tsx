@@ -2,14 +2,10 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  FaCalendarAlt,
-  FaExclamationTriangle,
-  FaSyncAlt,
-} from "react-icons/fa";
+import { FaCalendarAlt, FaSyncAlt } from "react-icons/fa";
 import { ImSpinner8 } from "react-icons/im";
 
-import type { RootState, AppDispatch } from "../store";
+import type { AppDispatch, RootState } from "../store/index";
 import { fetchNews } from "../store/slices/news";
 import { slugify } from "../utils/slugify";
 
@@ -55,10 +51,6 @@ const News = () => {
     return (
       <div className="h-screen w-full flex items-center justify-center bg-black text-white">
         <div className="flex flex-col items-center justify-center space-y-6 animate-fade-in-up">
-          <div className="w-16 h-16 rounded-full bg-red-900/20 border border-red-500/30 flex items-center justify-center">
-            <FaExclamationTriangle className="w-8 h-8 text-red-500" />
-          </div>
-
           <div className="text-center space-y-2 max-w-md">
             <h3 className="font-serif text-xl text-red-100 tracking-widest uppercase">
               Connection Severed
@@ -78,7 +70,7 @@ const News = () => {
               font-bold tracking-widest
               transition-all group cursor-pointer"
           >
-            <FaSyncAlt className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
+            <FaSyncAlt className="w-4 h-4" />
             Retry Connection
           </button>
         </div>

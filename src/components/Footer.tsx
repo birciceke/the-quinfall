@@ -11,7 +11,7 @@ const Footer = () => {
   const links = [
     { name: "Legal Notice", path: "/legal-notice" },
     { name: "Privacy Policy", path: "/privacy-policy" },
-    { name: "Twitch Drops", path: "/twitch-drops" },
+    { name: "Twitch Drops", path: "/drops" },
     { name: "Wiki", path: "/wiki" },
   ];
 

@@ -162,7 +162,7 @@ function App() {
 
           <Route element={<MainLayout />}>
             <Route path="/news/:slug" element={<NewsDetailPage />} />
-            <Route path="/twitch-drops" element={<TwitchDropsPage />} />
+            <Route path="/drops" element={<TwitchDropsPage />} />
             <Route path="/legal-notice" element={<LegalNoticePage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           </Route>

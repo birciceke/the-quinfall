@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { FaCalendarAlt, FaLink, FaArrowLeft } from "react-icons/fa";
 
-import type { AppDispatch, RootState } from "../store/index";
+import type { AppDispatch, RootState } from "../store";
 import { fetchNewsById } from "../store/slices/news";
 
 import ErrorPage from "./ErrorPage";
@@ -43,12 +43,9 @@ const NewsDetailPage = () => {
     <section className="relative min-h-screen w-full bg-black text-white flex items-center">
       {!isLoading && !error && currentData && (
         <motion.div
-          initial={{ opacity: 0, filter: "blur(16px)" }}
-          animate={{ opacity: 1, filter: "blur(0px)" }}
-          transition={{
-            duration: 0.7,
-            ease: [0.25, 0.1, 0.25, 1],
-          }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="relative max-w-5xl mx-auto my-12 bg-linear-to-t from-black via-black/80 to-transparent md:border border-white/10 shadow-2xl overflow-hidden"
         >
           <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#c9a858]" />
@@ -81,7 +78,7 @@ const NewsDetailPage = () => {
                 <div className="flex items-center gap-1 text-gray-400 text-sm">
                   <FaCalendarAlt className="text-[#c9a858]" size={14} />
                   {new Date(currentData.createdAt).toLocaleDateString("en-US", {
-                    month: "long",
+                    month: "short",
                     day: "numeric",
                     year: "numeric",
                   })}
@@ -92,7 +89,7 @@ const NewsDetailPage = () => {
                     onClick={handleCopyLink}
                     className="text-gray-400 hover:text-white transition-all duration-200 cursor-pointer"
                   >
-                    <FaLink />
+                    <FaLink size={18} />
                   </button>
                   {copied && (
                     <span className="text-xs text-[#c9a858] tracking-wide">

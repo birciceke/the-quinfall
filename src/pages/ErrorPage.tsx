@@ -1,6 +1,5 @@
 import { FaCompass, FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router";
-import { motion } from "framer-motion";
 
 import Footer from "../components/Footer";
 
@@ -11,15 +10,7 @@ const ErrorPage = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-[#c9a858]/5 via-black to-black opacity-50 pointer-events-none" />
         <div className="absolute inset-0 bg-black/20 animate-pulse-slow pointer-events-none" />
 
-        <motion.div
-          initial={{ opacity: 0, filter: "blur(16px)" }}
-          animate={{ opacity: 1, filter: "blur(0px)" }}
-          transition={{
-            duration: 0.7,
-            ease: [0.25, 0.1, 0.25, 1],
-          }}
-          className="relative z-10 flex flex-col items-center text-center max-w-2xl animate-fade-in-up"
-        >
+        <div className="relative z-10 flex flex-col items-center text-center max-w-2xl animate-fade-in-up">
           <div className="relative mb-8 group">
             <div className="absolute inset-0 bg-[#c9a858]/20 blur-3xl rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-1000" />
             <div className="relative border border-white/10 p-8 rounded-full bg-black/50 backdrop-blur-sm">
@@ -47,7 +38,7 @@ const ErrorPage = () => {
             <FaArrowLeft />
             Step Back into The Quinfall
           </Link>
-        </motion.div>
+        </div>
       </section>
 
       <Footer />

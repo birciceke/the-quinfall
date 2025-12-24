@@ -1,13 +1,11 @@
-import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-import type { News } from "../../types/news";
+import type { News } from "../../../types/news";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchNews = createAsyncThunk("news/fetch", async () => {
-  if (!API_URL) throw new Error("API URL is not defined!");
-
   const response = await axios.get(`${API_URL}/news`);
   return response.data;
 });
@@ -15,8 +13,6 @@ export const fetchNews = createAsyncThunk("news/fetch", async () => {
 export const fetchNewsById = createAsyncThunk(
   "news/fetchById",
   async (_id: string) => {
-    if (!API_URL) throw new Error("API URL is not defined!");
-
     const response = await axios.get(`${API_URL}/news/${_id}`);
     return response.data;
   }
@@ -49,7 +45,7 @@ const newsSlice = createSlice({
       .addCase(fetchNews.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.data = Array.isArray(action.payload) ? action.payload : [];
+        state.data = action.payload;
       })
       .addCase(fetchNews.rejected, (state) => {
         state.isLoading = false;
@@ -59,17 +55,15 @@ const newsSlice = createSlice({
       .addCase(fetchNewsById.pending, (state) => {
         state.isLoading = true;
         state.error = false;
-        state.currentData = null;
       })
       .addCase(fetchNewsById.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = false;
-        state.currentData = action.payload || null;
+        state.currentData = action.payload;
       })
       .addCase(fetchNewsById.rejected, (state) => {
         state.isLoading = false;
         state.error = true;
-        state.currentData = null;
       });
   },
 });

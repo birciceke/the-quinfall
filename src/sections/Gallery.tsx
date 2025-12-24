@@ -14,30 +14,14 @@ const Gallery = () => {
 
   const nextImage = () => setCurrentIndex((prev) => (prev + 1) % total);
   const prevImage = () => setCurrentIndex((prev) => (prev - 1 + total) % total);
+
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
-        setActiveKey("ArrowRight");
-        nextImage();
-      }
-
-      if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
-        setActiveKey("ArrowLeft");
-        prevImage();
-      }
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") nextImage();
+      if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") prevImage();
     };
-
-    const handleKeyUp = () => {
-      setActiveKey(null);
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
   useEffect(() => {

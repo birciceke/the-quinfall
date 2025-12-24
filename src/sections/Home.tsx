@@ -181,9 +181,15 @@ const Home = () => {
             shadow-md
           "
               >
-                <span className="inline-block text-2xl leading-none">
+                <motion.span
+                  whileHover={{
+                    rotate: 90,
+                    transition: { type: "spring", stiffness: 250, damping: 10 },
+                  }}
+                  className="inline-block text-2xl leading-none"
+                >
                   <FaTimes />
-                </span>
+                </motion.span>
               </button>
 
               <iframe

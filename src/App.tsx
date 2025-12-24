@@ -12,6 +12,8 @@ const MainLayout = lazy(() => import("./layouts/MainLayout"));
 const NewsDetailPage = lazy(() => import("./pages/NewsDetailPage"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 const TwitchDropsPage = lazy(() => import("./pages/TwitchDropsPage"));
+const LegalNoticePage = lazy(() => import("./pages/LegalNoticePage"));
+const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
 
 import Header from "./components/Header";
 import Indicator from "./components/Indicator";
@@ -160,7 +162,9 @@ function App() {
 
           <Route element={<MainLayout />}>
             <Route path="/news/:slug" element={<NewsDetailPage />} />
-            <Route path="/drops" element={<TwitchDropsPage />} />
+            <Route path="/twitch-drops" element={<TwitchDropsPage />} />
+            <Route path="/legal-notice" element={<LegalNoticePage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           </Route>
 
           <Route path="*" element={<ErrorPage />} />

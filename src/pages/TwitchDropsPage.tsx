@@ -12,6 +12,7 @@ import { FaCheck } from "react-icons/fa6";
 import { RxExit } from "react-icons/rx";
 
 import Toast from "../components/Toast";
+import ToastContainer from "../components/ToastContainer";
 
 const STORAGE_KEY = "userAuthData";
 const API_BASE = import.meta.env.VITE_API_URL || "";
@@ -380,7 +381,7 @@ const TwitchDropsPage = () => {
         </motion.div>
       </section>
 
-      <div className="fixed bottom-18 md:bottom-30 left-1/2 -translate-x-1/2 z-9999">
+      <ToastContainer>
         <AnimatePresence>
           {toast && (
             <Toast
@@ -391,7 +392,7 @@ const TwitchDropsPage = () => {
             />
           )}
         </AnimatePresence>
-      </div>
+      </ToastContainer>
     </>
   );
 };

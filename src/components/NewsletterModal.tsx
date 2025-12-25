@@ -4,6 +4,7 @@ import { FaTimes, FaArrowRight, FaCheck } from "react-icons/fa";
 import axios, { isAxiosError } from "axios";
 import { Link } from "react-router";
 
+import ToastContainer from "./ToastContainer";
 import Toast from "./Toast";
 
 interface NewsletterModalProps {
@@ -195,7 +196,7 @@ const NewsletterModal: React.FC<NewsletterModalProps> = ({
         )}
       </AnimatePresence>
 
-      <div className="fixed bottom-18 md:bottom-30 left-1/2 -translate-x-1/2 z-9999">
+      <ToastContainer>
         <AnimatePresence>
           {toast && (
             <Toast
@@ -206,7 +207,7 @@ const NewsletterModal: React.FC<NewsletterModalProps> = ({
             />
           )}
         </AnimatePresence>
-      </div>
+      </ToastContainer>
     </>
   );
 };

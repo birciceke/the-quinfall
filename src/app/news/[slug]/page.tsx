@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import NewsDetailClient from "./NewsDetailClient";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://thequinfall.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://quinfall.com";
 
 interface NewsItem {
     _id: string;

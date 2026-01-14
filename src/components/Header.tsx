@@ -93,12 +93,13 @@ const Header = ({ onOpenNewsletter }: HeaderProps) => {
 
                 <div className="hidden md:flex items-center gap-6 text-base md:text-lg">
                     <div className="flex items-center gap-3">
-                        {socialLinks.map(({ href, icon: Icon, hoverColor }) => (
+                        {socialLinks.map(({ href, icon: Icon, hoverColor, label }) => (
                             <a
                                 key={href}
                                 href={href}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                aria-label={label}
                                 className={`cursor-pointer p-2.5 rounded-full text-white transition-all duration-200 ${hoverColor} hover:bg-white/10`}
                             >
                                 <Icon size={22} />

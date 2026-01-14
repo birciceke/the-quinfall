@@ -49,7 +49,7 @@ const Footer = () => {
 
                 <div className="w-32 md:w-40 flex justify-center md:justify-end">
                     <a
-                        href="http://vawraek.com/"
+                        href="https://vawraek.com/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-32 md:w-40"

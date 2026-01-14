@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://thequinfall.com",
+    url: "https://quinfall.com",
     siteName: "The Quinfall",
     title: "The Quinfall | Official Website",
     description: "The Quinfall is an upcoming MMORPG developed by Vawraek Technology. Explore a vast fantasy world, engage in epic battles, and join a thriving community.",
@@ -73,14 +73,14 @@ export default function RootLayout({
     "publisher": {
       "@type": "Organization",
       "name": "Vawraek Technology",
-      "url": "https://thequinfall.com"
+      "url": "https://quinfall.com"
     },
     "developer": {
       "@type": "Organization",
       "name": "Vawraek Technology"
     },
-    "url": "https://thequinfall.com",
-    "image": "https://thequinfall.com/og-image.jpg",
+    "url": "https://quinfall.com",
+    "image": "https://quinfall.com/og-image.jpg",
     "applicationCategory": "Game"
   };
 

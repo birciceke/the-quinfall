@@ -63,8 +63,35 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "The Quinfall",
+    "description": "The Quinfall is an upcoming MMORPG developed by Vawraek Technology. Explore a vast fantasy world, engage in epic battles, and join a thriving community.",
+    "genre": ["MMORPG", "Fantasy", "Action RPG"],
+    "gamePlatform": ["PC"],
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vawraek Technology",
+      "url": "https://thequinfall.com"
+    },
+    "developer": {
+      "@type": "Organization",
+      "name": "Vawraek Technology"
+    },
+    "url": "https://thequinfall.com",
+    "image": "https://thequinfall.com/og-image.jpg",
+    "applicationCategory": "Game"
+  };
+
   return (
     <html lang="en" className={ebGaramond.variable}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="antialiased bg-black text-white font-serif">
         <StoreProvider>{children}</StoreProvider>
       </body>

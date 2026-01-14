@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 * {
-  font-family: var(--font-eb-garamond), serif;
+  font-family: var(--font-cormorant), serif;
   outline: 0;
+}
+
+/* Headings use Cinzel */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-cinzel), serif;
 }
 
 :root {
@@ -17,7 +22,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-quinfall-gold: var(--quinfall-gold);
-  --font-serif: var(--font-eb-garamond), serif;
+  --font-serif: var(--font-cinzel), serif;
+  --font-sans: var(--font-cormorant), sans-serif;
 }
 
 html,

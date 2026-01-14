@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
-import { EB_Garamond } from "next/font/google";
+import { Cinzel, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/providers/StoreProvider";
 
-const ebGaramond = EB_Garamond({
+const cinzel = Cinzel({
   subsets: ["latin"],
-  variable: "--font-eb-garamond",
+  variable: "--font-cinzel",
   display: "swap",
+});
+
+const cormorantGaramond = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-cormorant",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -85,14 +92,14 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={ebGaramond.variable}>
+    <html lang="en" className={`${cinzel.variable} ${cormorantGaramond.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased bg-black text-white font-serif">
+      <body className="antialiased bg-black text-white">
         <StoreProvider>{children}</StoreProvider>
       </body>
     </html>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 
 import type { AppDispatch, RootState } from "@/store";
@@ -15,6 +15,7 @@ interface MaintenanceWrapperProps {
 const MaintenanceWrapper = ({ children }: MaintenanceWrapperProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const pathname = usePathname();
+    const router = useRouter();
 
     const { isActive, message } = useSelector(
         (state: RootState) => state.maintenance
@@ -23,6 +24,16 @@ const MaintenanceWrapper = ({ children }: MaintenanceWrapperProps) => {
     useEffect(() => {
         dispatch(fetchMaintenanceStatus());
     }, [dispatch]);
+
+    // Change document title and redirect when maintenance is active
+    useEffect(() => {
+        if (isActive && !pathname?.startsWith("/dashboard")) {
+            document.title = "The Quinfall | Website Under Maintenance";
+            if (pathname !== "/") {
+                router.replace("/");
+            }
+        }
+    }, [isActive, pathname, router]);
 
     // Don't show maintenance overlay on dashboard page
     const isDashboard = pathname?.startsWith("/dashboard");

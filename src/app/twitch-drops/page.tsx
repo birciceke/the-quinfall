@@ -36,87 +36,102 @@ interface StepProps {
 
 function Step({ stepNumber, title, description, icon, iconBgColor, isCompleted, isActive, isLast, nextCompleted, onDisconnect, children }: StepProps) {
     return (
-        <div className="flex">
-            <div className="flex flex-col items-center mr-4 md:mr-6">
+        <div className="relative">
+            {/* Icon Row - centered with card */}
+            <div className="flex items-center">
+                <div className="mr-4 md:mr-6 flex-shrink-0">
+                    <motion.div
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: stepNumber * 0.15, duration: 0.4 }}
+                        className={`relative w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center border-2 transition-all duration-500 ${isCompleted
+                            ? "border-[#c9a858] bg-[#c9a858]/20 shadow-[0_0_15px_rgba(201,168,88,0.25)]"
+                            : isActive
+                                ? `border-white/40 ${iconBgColor} shadow-lg`
+                                : "border-white/10 bg-black/60"
+                            }`}
+                    >
+                        {isCompleted ? (
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                            >
+                                <FaCheck className="w-5 h-5 md:w-6 md:h-6 text-[#c9a858]" />
+                            </motion.div>
+                        ) : (
+                            <div className={`${isActive ? "text-white" : "text-gray-500"}`}>
+                                {icon}
+                            </div>
+                        )}
+
+                        {isActive && !isCompleted && (
+                            <motion.div
+                                animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0, 0.4] }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                                className="absolute inset-0 rounded-full border-2 border-white/20"
+                            />
+                        )}
+                    </motion.div>
+                </div>
+
                 <motion.div
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: stepNumber * 0.15, duration: 0.4 }}
-                    className={`relative w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center border-2 transition-all duration-500 flex-shrink-0 ${isCompleted
-                        ? "border-[#c9a858] bg-[#c9a858]/20 shadow-[0_0_15px_rgba(201,168,88,0.25)]"
-                        : isActive
-                            ? `border-white/40 ${iconBgColor} shadow-lg`
-                            : "border-white/10 bg-black/60"
-                        }`}
+                    initial={{ opacity: 0, x: -15 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: stepNumber * 0.15 + 0.1, duration: 0.4 }}
+                    className="flex-1"
                 >
-                    {isCompleted ? (
-                        <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                        >
-                            <FaCheck className="w-5 h-5 md:w-6 md:h-6 text-[#c9a858]" />
-                        </motion.div>
-                    ) : (
-                        <div className={`${isActive ? "text-white" : "text-gray-500"}`}>
-                            {icon}
+                    <div className={`p-5 md:p-6 border transition-colors duration-300 ${isCompleted
+                        ? "bg-white/[0.02] border-white/10"
+                        : isActive
+                            ? "bg-white/[0.03] border-white/10"
+                            : "bg-white/[0.01] border-white/5"
+                        }`}>
+                        <div className="flex items-center justify-between mb-2">
+                            <h3 className={`text-base md:text-lg font-serif font-bold uppercase tracking-wide ${isCompleted ? "text-[#c9a858]" : isActive ? "text-white" : "text-gray-500"
+                                }`}>
+                                {title}
+                            </h3>
+                            {isCompleted && onDisconnect && (
+                                <motion.button
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    onClick={onDisconnect}
+                                    className="p-1.5 text-gray-600 hover:text-red-400 hover:bg-red-500/10 rounded transition-all cursor-pointer"
+                                    title="Disconnect"
+                                >
+                                    <FaXmark className="w-3.5 h-3.5" />
+                                </motion.button>
+                            )}
                         </div>
-                    )}
 
-                    {isActive && !isCompleted && (
-                        <motion.div
-                            animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0, 0.4] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                            className="absolute inset-0 rounded-full border-2 border-white/20"
-                        />
-                    )}
-                </motion.div>
+                        <p className={`text-xs md:text-sm mb-4 leading-relaxed ${isActive || isCompleted ? "text-gray-400" : "text-gray-600"
+                            }`}>
+                            {description}
+                        </p>
 
-                {!isLast && (
-                    <div className="relative w-0.5 flex-1 min-h-[40px] bg-white/10 mt-2">
-                        <motion.div
-                            initial={{ height: 0 }}
-                            animate={{ height: isCompleted ? "100%" : nextCompleted ? "100%" : "0%" }}
-                            transition={{ duration: 0.6, delay: stepNumber * 0.2, ease: "easeOut" }}
-                            className="absolute top-0 left-0 right-0 bg-gradient-to-b from-[#c9a858] to-[#c9a858]/50"
-                        />
+                        <div className={`${!isActive && !isCompleted ? "opacity-40 pointer-events-none" : ""}`}>
+                            {children}
+                        </div>
                     </div>
-                )}
+                </motion.div>
             </div>
 
-            <motion.div
-                initial={{ opacity: 0, x: -15 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: stepNumber * 0.15 + 0.1, duration: 0.4 }}
-                className="flex-1 pb-6"
-            >
-                <div className="flex items-center justify-between mb-2">
-                    <h3 className={`text-base md:text-lg font-serif font-bold uppercase tracking-wide ${isCompleted ? "text-[#c9a858]" : isActive ? "text-white" : "text-gray-500"
-                        }`}>
-                        {title}
-                    </h3>
-                    {isCompleted && onDisconnect && (
-                        <motion.button
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            onClick={onDisconnect}
-                            className="p-1.5 text-gray-600 hover:text-red-400 hover:bg-red-500/10 rounded transition-all cursor-pointer"
-                            title="Disconnect"
-                        >
-                            <FaXmark className="w-3.5 h-3.5" />
-                        </motion.button>
-                    )}
+            {/* Connecting line - between steps */}
+            {!isLast && (
+                <div className="flex">
+                    <div className="w-12 md:w-14 mr-4 md:mr-6 flex justify-center">
+                        <div className="relative w-0.5 h-10 bg-white/10">
+                            <motion.div
+                                initial={{ height: 0 }}
+                                animate={{ height: isCompleted ? "100%" : nextCompleted ? "100%" : "0%" }}
+                                transition={{ duration: 0.6, delay: stepNumber * 0.2, ease: "easeOut" }}
+                                className="absolute top-0 left-0 right-0 bg-gradient-to-b from-[#c9a858] to-[#c9a858]/50"
+                            />
+                        </div>
+                    </div>
                 </div>
-
-                <p className={`text-xs md:text-sm mb-4 leading-relaxed ${isActive || isCompleted ? "text-gray-400" : "text-gray-600"
-                    }`}>
-                    {description}
-                </p>
-
-                <div className={`${!isActive && !isCompleted ? "opacity-40 pointer-events-none" : ""}`}>
-                    {children}
-                </div>
-            </motion.div>
+            )}
         </div>
     );
 }
@@ -198,6 +213,7 @@ function TwitchDropsContent() {
         if (stored.steamLinked) {
             setSteamLinked(true);
             if (stored.twitchLinked) setTwitchLinked(true);
+            if (stored.rewardsClaimed) setRewardsCollected(true);
         } else {
             clearAuthData();
         }
@@ -211,6 +227,7 @@ function TwitchDropsContent() {
     const handleSteamLogout = () => {
         clearAuthData();
         setSteamLinked(false);
+        setRewardsCollected(false);
         window.location.href = `${API_BASE}/steam/logout`;
     };
 
@@ -221,8 +238,9 @@ function TwitchDropsContent() {
 
     const handleTwitchLogout = () => {
         const stored = loadAuthData();
-        saveAuthData({ ...stored, twitchLinked: false, twitchUsername: "" });
+        saveAuthData({ ...stored, twitchLinked: false, twitchUsername: "", rewardsClaimed: false });
         setTwitchLinked(false);
+        setRewardsCollected(false);
         window.location.href = `${API_BASE}/twitch/logout`;
     };
 
@@ -240,6 +258,8 @@ function TwitchDropsContent() {
 
             if (json.success) {
                 setRewardsCollected(true);
+                const stored = loadAuthData();
+                saveAuthData({ ...stored, rewardsClaimed: true });
                 setMessage({
                     text: json.message || "Your Twitch reward has been found and will be delivered to your in-game account within 5 minutes!",
                     type: "success",
